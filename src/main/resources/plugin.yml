@@ -1,0 +1,13 @@
+name: MolecularFoundry
+main: net.guizhanss.molecularfoundry.MolecularFoundry
+version: 0.1.0
+api-version: 1.20
+load: POSTWORLD
+commands:
+  molf:
+    description: Molecular Foundry admin command
+    usage: /molf
+    permission: molecularfoundry.command
+permissions:
+  molecularfoundry.command:
+    default: op
