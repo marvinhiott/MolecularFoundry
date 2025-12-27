@@ -26,6 +26,9 @@ public class Config {
                 // Machines behavior
                 config.set("machines.require-machine-items", true);
                 config.set("machines.allow-vanilla-conversion", false);
+                // Network behavior
+                config.set("network.require-network-items", true);
+                config.set("network.allow-vanilla-conversion", false);
                 config.save(configFile);
             } else {
                 config = YamlConfiguration.loadConfiguration(configFile);
@@ -35,6 +38,8 @@ public class Config {
                 if (!config.contains("power.enable-network-power-check")) config.set("power.enable-network-power-check", true);
                 if (!config.contains("machines.require-machine-items")) config.set("machines.require-machine-items", true);
                 if (!config.contains("machines.allow-vanilla-conversion")) config.set("machines.allow-vanilla-conversion", false);
+                if (!config.contains("network.require-network-items")) config.set("network.require-network-items", true);
+                if (!config.contains("network.allow-vanilla-conversion")) config.set("network.allow-vanilla-conversion", false);
                 config.save(configFile);
             }
             MolecularFoundry.getInstance().getLogger().info("Config loaded.");
@@ -61,6 +66,14 @@ public class Config {
 
     public static boolean allowVanillaConversion() {
         return config.getBoolean("machines.allow-vanilla-conversion", false);
+    }
+
+    public static boolean requireNetworkItems() {
+        return config.getBoolean("network.require-network-items", true);
+    }
+
+    public static boolean allowNetworkVanillaConversion() {
+        return config.getBoolean("network.allow-vanilla-conversion", false);
     }
 
     public static void reload() {

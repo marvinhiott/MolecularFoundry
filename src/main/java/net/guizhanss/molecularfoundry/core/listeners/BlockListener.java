@@ -77,10 +77,17 @@ public class BlockListener implements Listener {
             return; // handled via machine item
         }
 
+        // First, handle network items when tagged
+        if (inHand != null && inHand.hasItemMeta() && inHand.getItemMeta().getPersistentDataContainer().has(Keys.networkItemType(), PersistentDataType.STRING)) {
+            // Register node based on placed block material
+            MolecularFoundry.getInstance().getNetworkManager().registerNode(b.getLocation(), t);
+            return;
+        }
+
         // Legacy behavior: optional vanilla conversion
         if (!Config.allowVanillaConversion()) {
-            // Always allow registering network nodes regardless of conversion toggle
-            if (t == Material.WHITE_STAINED_GLASS || t == Material.BLUE_STAINED_GLASS || t == Material.YELLOW_STAINED_GLASS || t == Material.TERRACOTTA || t == Material.BLUE_TERRACOTTA || t == Material.CYAN_TERRACOTTA || t == Material.JUKEBOX || t == Material.REDSTONE_LAMP) {
+            // Optionally allow registering network nodes via vanilla blocks
+            if (Config.allowNetworkVanillaConversion() && (t == Material.WHITE_STAINED_GLASS || t == Material.BLUE_STAINED_GLASS || t == Material.YELLOW_STAINED_GLASS || t == Material.TERRACOTTA || t == Material.BLUE_TERRACOTTA || t == Material.CYAN_TERRACOTTA || t == Material.JUKEBOX || t == Material.REDSTONE_LAMP)) {
                 MolecularFoundry.getInstance().getNetworkManager().registerNode(b.getLocation(), t);
             }
             return;
@@ -140,6 +147,8 @@ public class BlockListener implements Listener {
             handleSynthClick(e);
         } else if (RECOMB_TITLE.equals(title)) {
             handleRecombClick(e);
+        } else if (net.guizhanss.molecularfoundry.core.ui.PluginMenu.isPluginMenu(title)) {
+            net.guizhanss.molecularfoundry.core.ui.PluginMenu.handleClick(e);
         } else {
             MolecularFoundry.getInstance().getNetworkManager().handleInventoryClick(e);
         }
@@ -152,6 +161,8 @@ public class BlockListener implements Listener {
             for (int slot : e.getRawSlots()) {
                 if (slot < topSize) { e.setCancelled(true); return; }
             }
+        } else if (net.guizhanss.molecularfoundry.core.ui.PluginMenu.isPluginMenu(title)) {
+            net.guizhanss.molecularfoundry.core.ui.PluginMenu.handleDrag(e);
         } else {
             MolecularFoundry.getInstance().getNetworkManager().handleInventoryDrag(e);
         }

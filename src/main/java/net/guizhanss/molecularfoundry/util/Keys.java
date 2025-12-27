@@ -26,4 +26,5 @@ public class Keys {
 
     // Item keys (not location-based)
     public static NamespacedKey machineItemType() { return new NamespacedKey(MolecularFoundry.getInstance(), "mf_machine_item_type"); }
+    public static NamespacedKey networkItemType() { return new NamespacedKey(MolecularFoundry.getInstance(), "mf_network_item_type"); }
 }

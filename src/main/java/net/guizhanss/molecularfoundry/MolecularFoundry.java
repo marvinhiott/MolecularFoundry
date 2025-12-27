@@ -64,6 +64,7 @@ public class MolecularFoundry extends JavaPlugin {
                     sender.sendMessage("\u00a77/molf blueprint <material> - Get a genetic blueprint");
                     sender.sendMessage("\u00a77/molf netcheck <addrA> <addrB> - Check tube connectivity");
                     sender.sendMessage("\u00a77/molf give <machine> - Get a machine block");
+                    sender.sendMessage("\u00a77/molf menu - Open plugin menu (machines/network)");
                     return true;
                 }
 
@@ -103,6 +104,10 @@ public class MolecularFoundry extends JavaPlugin {
                     if (b == null) { sender.sendMessage("\u00a7cUnknown address: " + args[2]); return true; }
                     boolean ok = nm.areConnected(a, b);
                     sender.sendMessage(ok ? "\u00a7aConnected via tubes" : "\u00a7cNot connected");
+                    return true;
+                } else if (args[0].equalsIgnoreCase("menu")) {
+                    if (!(sender instanceof Player player)) { sender.sendMessage("\u00a7cOnly players can open the menu."); return true; }
+                    net.guizhanss.molecularfoundry.core.ui.PluginMenu.openMain(player);
                     return true;
                 } else if (args[0].equalsIgnoreCase("addrhere")) {
                     if (!(sender instanceof Player player)) { sender.sendMessage("\u00a7cOnly players"); return true; }
