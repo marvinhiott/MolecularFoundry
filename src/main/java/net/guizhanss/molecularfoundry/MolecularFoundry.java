@@ -16,6 +16,8 @@ import net.guizhanss.molecularfoundry.core.network.NetworkManager;
 import net.guizhanss.molecularfoundry.items.GeneticBlueprint;
 import net.guizhanss.molecularfoundry.core.machines.MachineType;
 import net.guizhanss.molecularfoundry.core.machines.MachineItems;
+import net.guizhanss.molecularfoundry.core.machines.MachineRecipes;
+import net.guizhanss.molecularfoundry.core.network.NetworkRecipes;
 
 public class MolecularFoundry extends JavaPlugin {
 
@@ -55,6 +57,9 @@ public class MolecularFoundry extends JavaPlugin {
         recombinatorTicker.start();
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
+
+        MachineRecipes.register();
+        NetworkRecipes.register();
 
         PluginCommand cmd = getCommand("molf");
         if (cmd != null) {
@@ -107,6 +112,7 @@ public class MolecularFoundry extends JavaPlugin {
                     return true;
                 } else if (args[0].equalsIgnoreCase("menu")) {
                     if (!(sender instanceof Player player)) { sender.sendMessage("\u00a7cOnly players can open the menu."); return true; }
+                    if (!sender.hasPermission("molecularfoundry.menu")) { sender.sendMessage("\u00a7cYou don't have permission to use this command."); return true; }
                     net.guizhanss.molecularfoundry.core.ui.PluginMenu.openMain(player);
                     return true;
                 } else if (args[0].equalsIgnoreCase("addrhere")) {
@@ -120,6 +126,7 @@ public class MolecularFoundry extends JavaPlugin {
                     return true;
                 } else if (args[0].equalsIgnoreCase("give")) {
                     if (!(sender instanceof Player player)) { sender.sendMessage("\u00a7cOnly players can use this command."); return true; }
+                    if (!sender.hasPermission("molecularfoundry.give")) { sender.sendMessage("\u00a7cYou don't have permission to use this command."); return true; }
                     if (args.length < 2) { sender.sendMessage("\u00a7cUsage: /molf give <solar|coal|synth|recomb>"); return true; }
                     String which = args[1].toLowerCase();
                     MachineType type = switch (which) {

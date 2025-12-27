@@ -11,3 +11,9 @@ commands:
 permissions:
   molecularfoundry.command:
     default: op
+  molecularfoundry.menu:
+    default: true
+    description: Access the plugin menu
+  molecularfoundry.give:
+    default: op
+    description: Give machine and network items
