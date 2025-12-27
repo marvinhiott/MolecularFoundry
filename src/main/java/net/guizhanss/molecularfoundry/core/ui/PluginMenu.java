@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.guizhanss.molecularfoundry.core.machines.MachineItems;
 import net.guizhanss.molecularfoundry.core.machines.MachineType;
 import net.guizhanss.molecularfoundry.core.network.NetworkManager;
+import net.guizhanss.molecularfoundry.core.network.NetworkItems;
 
 public final class PluginMenu {
     private PluginMenu() {}
@@ -45,14 +46,14 @@ public final class PluginMenu {
     public static void openNetwork(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, TITLE_NETWORK);
         // Transport tube, Inserter, Getter, Controller, Storage variants
-        inv.setItem(10, labeled(new ItemStack(Material.WHITE_STAINED_GLASS), "Transport Tube"));
-        inv.setItem(11, labeled(new ItemStack(Material.BLUE_STAINED_GLASS), "Inserter"));
-        inv.setItem(12, labeled(new ItemStack(Material.YELLOW_STAINED_GLASS), "Getter"));
-        inv.setItem(13, labeled(new ItemStack(Material.REDSTONE_LAMP), "Controller"));
-        inv.setItem(14, labeled(new ItemStack(Material.JUKEBOX), "Controller (Jukebox)"));
-        inv.setItem(15, labeled(new ItemStack(Material.TERRACOTTA), "Storage (1k)"));
-        inv.setItem(16, labeled(new ItemStack(Material.BLUE_TERRACOTTA), "Storage (5k)"));
-        inv.setItem(17, labeled(new ItemStack(Material.CYAN_TERRACOTTA), "Storage (10k)"));
+        inv.setItem(10, NetworkItems.createTransportTube());
+        inv.setItem(11, NetworkItems.createInserter());
+        inv.setItem(12, NetworkItems.createGetter());
+        inv.setItem(13, NetworkItems.createController());
+        inv.setItem(14, NetworkItems.createJukeboxController());
+        inv.setItem(15, NetworkItems.createStorage1k());
+        inv.setItem(16, NetworkItems.createStorage5k());
+        inv.setItem(17, NetworkItems.createStorage10k());
         // Back
         inv.setItem(22, labeled(new ItemStack(Material.ARROW), "Back"));
         player.openInventory(inv);
@@ -81,14 +82,14 @@ public final class PluginMenu {
             }
         } else if (TITLE_NETWORK.equals(title)) {
             switch (raw) {
-                case 10 -> give((Player)e.getWhoClicked(), new ItemStack(Material.WHITE_STAINED_GLASS));
-                case 11 -> give((Player)e.getWhoClicked(), new ItemStack(Material.BLUE_STAINED_GLASS));
-                case 12 -> give((Player)e.getWhoClicked(), new ItemStack(Material.YELLOW_STAINED_GLASS));
-                case 13 -> give((Player)e.getWhoClicked(), new ItemStack(Material.REDSTONE_LAMP));
-                case 14 -> give((Player)e.getWhoClicked(), new ItemStack(Material.JUKEBOX));
-                case 15 -> give((Player)e.getWhoClicked(), new ItemStack(Material.TERRACOTTA));
-                case 16 -> give((Player)e.getWhoClicked(), new ItemStack(Material.BLUE_TERRACOTTA));
-                case 17 -> give((Player)e.getWhoClicked(), new ItemStack(Material.CYAN_TERRACOTTA));
+                case 10 -> give((Player)e.getWhoClicked(), NetworkItems.createTransportTube());
+                case 11 -> give((Player)e.getWhoClicked(), NetworkItems.createInserter());
+                case 12 -> give((Player)e.getWhoClicked(), NetworkItems.createGetter());
+                case 13 -> give((Player)e.getWhoClicked(), NetworkItems.createController());
+                case 14 -> give((Player)e.getWhoClicked(), NetworkItems.createJukeboxController());
+                case 15 -> give((Player)e.getWhoClicked(), NetworkItems.createStorage1k());
+                case 16 -> give((Player)e.getWhoClicked(), NetworkItems.createStorage5k());
+                case 17 -> give((Player)e.getWhoClicked(), NetworkItems.createStorage10k());
                 case 22 -> openMain((Player)e.getWhoClicked());
                 default -> e.setCancelled(true);
             }

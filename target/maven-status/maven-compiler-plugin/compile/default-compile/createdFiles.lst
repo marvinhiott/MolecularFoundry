@@ -24,6 +24,7 @@ net\guizhanss\molecularfoundry\items\BlueprintItem.class
 net\guizhanss\molecularfoundry\core\processing\SynthesizerTicker.class
 net\guizhanss\molecularfoundry\core\listeners\BlockListener$1.class
 net\guizhanss\molecularfoundry\core\network\NetworkRecipes.class
+net\guizhanss\molecularfoundry\core\network\NetworkItems.class
 net\guizhanss\molecularfoundry\core\energy\EnergyTicker.class
 net\guizhanss\molecularfoundry\core\processing\RecombinatorTicker.class
 net\guizhanss\molecularfoundry\core\processing\MachineTicker.class
