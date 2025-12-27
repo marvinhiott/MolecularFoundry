@@ -14,6 +14,8 @@ import net.guizhanss.molecularfoundry.core.processing.MachineTicker;
 import net.guizhanss.molecularfoundry.core.processing.RecombinatorTicker;
 import net.guizhanss.molecularfoundry.core.network.NetworkManager;
 import net.guizhanss.molecularfoundry.items.GeneticBlueprint;
+import net.guizhanss.molecularfoundry.core.machines.MachineType;
+import net.guizhanss.molecularfoundry.core.machines.MachineItems;
 
 public class MolecularFoundry extends JavaPlugin {
 
@@ -61,6 +63,7 @@ public class MolecularFoundry extends JavaPlugin {
                     sender.sendMessage("\u00a7aMolecular Foundry is online.");
                     sender.sendMessage("\u00a77/molf blueprint <material> - Get a genetic blueprint");
                     sender.sendMessage("\u00a77/molf netcheck <addrA> <addrB> - Check tube connectivity");
+                    sender.sendMessage("\u00a77/molf give <machine> - Get a machine block");
                     return true;
                 }
 
@@ -109,6 +112,21 @@ public class MolecularFoundry extends JavaPlugin {
                     String addr = nm.getAddress(target.getLocation());
                     if (addr == null) { sender.sendMessage("\u00a7eUnregistered node"); return true; }
                     sender.sendMessage("\u00a77Address: \u00a7b" + addr);
+                    return true;
+                } else if (args[0].equalsIgnoreCase("give")) {
+                    if (!(sender instanceof Player player)) { sender.sendMessage("\u00a7cOnly players can use this command."); return true; }
+                    if (args.length < 2) { sender.sendMessage("\u00a7cUsage: /molf give <solar|coal|synth|recomb>"); return true; }
+                    String which = args[1].toLowerCase();
+                    MachineType type = switch (which) {
+                        case "solar", "sol", "sun" -> MachineType.SOLAR_GENERATOR;
+                        case "coal", "coalgen" -> MachineType.COAL_GENERATOR;
+                        case "synth", "synthesizer" -> MachineType.MOLECULAR_SYNTHESIZER;
+                        case "recomb", "recombinator" -> MachineType.RECOMBINATOR;
+                        default -> null;
+                    };
+                    if (type == null) { sender.sendMessage("\u00a7cUnknown machine: " + which); return true; }
+                    player.getInventory().addItem(MachineItems.create(type));
+                    sender.sendMessage("\u00a7aGave: " + type.displayName());
                     return true;
                 }
 

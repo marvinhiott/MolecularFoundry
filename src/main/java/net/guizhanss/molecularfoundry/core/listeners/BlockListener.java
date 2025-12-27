@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import net.guizhanss.molecularfoundry.MolecularFoundry;
@@ -19,6 +20,8 @@ import net.guizhanss.molecularfoundry.core.energy.FuelProvider;
 import net.guizhanss.molecularfoundry.core.processing.MachineTicker;
 import net.guizhanss.molecularfoundry.items.BlueprintItem;
 import net.guizhanss.molecularfoundry.util.Keys;
+import net.guizhanss.molecularfoundry.util.Config;
+import net.guizhanss.molecularfoundry.core.machines.MachineType;
 
 public class BlockListener implements Listener {
     private static final String SYNTH_TITLE = "Molecular Synthesizer";
@@ -38,6 +41,52 @@ public class BlockListener implements Listener {
     @EventHandler public void onPlace(BlockPlaceEvent e) {
         Block b = e.getBlockPlaced(); Material t = b.getType();
         EnergyManager em = MolecularFoundry.getInstance().getEnergyManager(); MachineTicker mt = MolecularFoundry.getInstance().getMachineTicker();
+
+        // Prefer item-tagged machine placement
+        ItemStack inHand = e.getItemInHand();
+        String machineId = null;
+        if (inHand != null && inHand.hasItemMeta() && inHand.getItemMeta().getPersistentDataContainer().has(Keys.machineItemType(), PersistentDataType.STRING)) {
+            machineId = inHand.getItemMeta().getPersistentDataContainer().get(Keys.machineItemType(), PersistentDataType.STRING);
+        }
+
+        if (machineId != null) {
+            MachineType type = MachineType.fromId(machineId);
+            if (type == null) return; // unknown tag; ignore
+            switch (type) {
+                case SOLAR_GENERATOR -> {
+                    b.getChunk().getPersistentDataContainer().set(Keys.machineKey(b.getLocation()), PersistentDataType.STRING, "solar");
+                    em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 500));
+                    em.registerProvider(b.getLocation(), new EnergyProvider.Solar(b.getLocation(), 5));
+                }
+                case COAL_GENERATOR -> {
+                    b.getChunk().getPersistentDataContainer().set(Keys.machineKey(b.getLocation()), PersistentDataType.STRING, "coal_generator");
+                    em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 1000));
+                    em.registerProvider(b.getLocation(), new FuelProvider(b.getLocation(), 10));
+                }
+                case MOLECULAR_SYNTHESIZER -> {
+                    b.getChunk().getPersistentDataContainer().set(Keys.machineKey(b.getLocation()), PersistentDataType.STRING, "molecular_synthesizer");
+                    em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 2000));
+                    MolecularFoundry.getInstance().getSynthesizerTicker().registerMachine(b);
+                }
+                case RECOMBINATOR -> {
+                    b.getChunk().getPersistentDataContainer().set(Keys.machineKey(b.getLocation()), PersistentDataType.STRING, "recombinator");
+                    em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 2000));
+                    MolecularFoundry.getInstance().getRecombinatorTicker().registerMachine(b);
+                }
+            }
+            return; // handled via machine item
+        }
+
+        // Legacy behavior: optional vanilla conversion
+        if (!Config.allowVanillaConversion()) {
+            // Always allow registering network nodes regardless of conversion toggle
+            if (t == Material.WHITE_STAINED_GLASS || t == Material.BLUE_STAINED_GLASS || t == Material.YELLOW_STAINED_GLASS || t == Material.TERRACOTTA || t == Material.BLUE_TERRACOTTA || t == Material.CYAN_TERRACOTTA || t == Material.JUKEBOX || t == Material.REDSTONE_LAMP) {
+                MolecularFoundry.getInstance().getNetworkManager().registerNode(b.getLocation(), t);
+            }
+            return;
+        }
+
+        // Legacy conversions
         if (t == Material.DAYLIGHT_DETECTOR) {
             b.getChunk().getPersistentDataContainer().set(Keys.machineKey(b.getLocation()), PersistentDataType.STRING, "solar");
             em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 500));

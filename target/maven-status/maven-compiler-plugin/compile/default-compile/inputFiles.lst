@@ -3,6 +3,7 @@ C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\c
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\processing\MachineRecipe.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\MolecularFoundry.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\util\Keys.java
+C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\machines\MachineItems.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\energy\FuelProvider.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\energy\EnergyProvider.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\network\NetworkUI.java
@@ -12,6 +13,7 @@ C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\c
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\items\BlueprintItem.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\processing\MachineProcessor.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\util\InventoryIO.java
+C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\machines\MachineType.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\processing\SynthesizerTicker.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\network\NetworkManager.java
 C:\workspace\GNE\MolecularFoundry\src\main\java\net\guizhanss\molecularfoundry\core\processing\MachineRecipeRegistry.java

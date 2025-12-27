@@ -23,6 +23,9 @@ public class Config {
                 config.set("power.controller-tick-cost", 2);
                 config.set("power.network-operation-cost", 5);
                 config.set("power.enable-network-power-check", true);
+                // Machines behavior
+                config.set("machines.require-machine-items", true);
+                config.set("machines.allow-vanilla-conversion", false);
                 config.save(configFile);
             } else {
                 config = YamlConfiguration.loadConfiguration(configFile);
@@ -30,6 +33,8 @@ public class Config {
                 if (!config.contains("power.controller-tick-cost")) config.set("power.controller-tick-cost", 2);
                 if (!config.contains("power.network-operation-cost")) config.set("power.network-operation-cost", 5);
                 if (!config.contains("power.enable-network-power-check")) config.set("power.enable-network-power-check", true);
+                if (!config.contains("machines.require-machine-items")) config.set("machines.require-machine-items", true);
+                if (!config.contains("machines.allow-vanilla-conversion")) config.set("machines.allow-vanilla-conversion", false);
                 config.save(configFile);
             }
             MolecularFoundry.getInstance().getLogger().info("Config loaded.");
@@ -48,6 +53,14 @@ public class Config {
 
     public static boolean isNetworkPowerCheckEnabled() {
         return config.getBoolean("power.enable-network-power-check", true);
+    }
+
+    public static boolean requireMachineItems() {
+        return config.getBoolean("machines.require-machine-items", true);
+    }
+
+    public static boolean allowVanillaConversion() {
+        return config.getBoolean("machines.allow-vanilla-conversion", false);
     }
 
     public static void reload() {

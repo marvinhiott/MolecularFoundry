@@ -1,7 +1,7 @@
 name: MolecularFoundry
 main: net.guizhanss.molecularfoundry.MolecularFoundry
 version: 0.1.0
-api-version: 1.20
+api-version: 1.21
 load: POSTWORLD
 commands:
   molf:

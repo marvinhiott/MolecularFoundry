@@ -23,4 +23,7 @@ public class Keys {
     public static NamespacedKey networkInserterFilter(Location loc) { return new NamespacedKey(MolecularFoundry.getInstance(), keyFor(loc, "mf_net_filter")); }
     public static NamespacedKey networkAddress(Location loc) { return new NamespacedKey(MolecularFoundry.getInstance(), keyFor(loc, "mf_net_addr")); }
     public static NamespacedKey networkStorageCapacity(Location loc) { return new NamespacedKey(MolecularFoundry.getInstance(), keyFor(loc, "mf_net_cap")); }
+
+    // Item keys (not location-based)
+    public static NamespacedKey machineItemType() { return new NamespacedKey(MolecularFoundry.getInstance(), "mf_machine_item_type"); }
 }
