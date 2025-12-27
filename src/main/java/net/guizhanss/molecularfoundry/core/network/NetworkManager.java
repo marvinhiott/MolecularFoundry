@@ -16,6 +16,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import net.guizhanss.molecularfoundry.MolecularFoundry;
+import net.guizhanss.molecularfoundry.core.energy.EnergyManager;
+import net.guizhanss.molecularfoundry.core.energy.EnergyStorage;
 import net.guizhanss.molecularfoundry.util.Keys;
 
 public class NetworkManager {
@@ -62,6 +64,15 @@ public class NetworkManager {
         }
         if (type == NodeType.STORAGE && !pdc.has(Keys.networkStorageCapacity(loc), PersistentDataType.INTEGER)) {
             pdc.set(Keys.networkStorageCapacity(loc), PersistentDataType.INTEGER, 1000);
+        }
+
+        // Register power for controllers and storages
+        EnergyManager em = MolecularFoundry.getInstance().getEnergyManager();
+        if (type == NodeType.CONTROLLER || type == NodeType.JUKEBOX_MENU) {
+            em.registerStorage(loc, new EnergyStorage(loc, 5000));
+        } else if (type == NodeType.STORAGE) {
+            int cap = CAPACITY_BY_BLOCK.getOrDefault(blockType, 1000);
+            em.registerStorage(loc, new EnergyStorage(loc, cap));
         }
     }
 
@@ -120,6 +131,16 @@ public class NetworkManager {
                             if (addr == null || addr.isEmpty()) addr = computeAddress(loc);
                             addresses.put(loc, addr);
                             addressToLoc.put(addr, loc);
+
+                            // Re-register power for controllers and storages on load
+                            EnergyManager em = MolecularFoundry.getInstance().getEnergyManager();
+                            if (type == NodeType.CONTROLLER || type == NodeType.JUKEBOX_MENU) {
+                                em.registerStorage(loc, new EnergyStorage(loc, 5000));
+                            } else if (type == NodeType.STORAGE) {
+                                Material mat = loc.getBlock().getType();
+                                int cap = CAPACITY_BY_BLOCK.getOrDefault(mat, 1000);
+                                em.registerStorage(loc, new EnergyStorage(loc, cap));
+                            }
                         } catch (Exception ignored) {}
                     }
                 }
