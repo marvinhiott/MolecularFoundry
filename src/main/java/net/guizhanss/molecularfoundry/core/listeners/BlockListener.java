@@ -81,6 +81,21 @@ public class BlockListener implements Listener {
         if (inHand != null && inHand.hasItemMeta() && inHand.getItemMeta().getPersistentDataContainer().has(Keys.networkItemType(), PersistentDataType.STRING)) {
             // Register node based on placed block material
             MolecularFoundry.getInstance().getNetworkManager().registerNode(b.getLocation(), t);
+            
+            // Register energy storage for controllers and storages
+            if (t == Material.REDSTONE_LAMP || t == Material.JUKEBOX) {
+                // Controller: 5000 RF capacity
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 5000));
+            } else if (t == Material.TERRACOTTA) {
+                // Storage 1k: 1000 item slots
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 1000));
+            } else if (t == Material.BLUE_TERRACOTTA) {
+                // Storage 5k: 5000 item slots
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 5000));
+            } else if (t == Material.CYAN_TERRACOTTA) {
+                // Storage 10k: 10000 item slots
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 10000));
+            }
             return;
         }
 
@@ -111,8 +126,18 @@ public class BlockListener implements Listener {
             em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 2000));
             MolecularFoundry.getInstance().getRecombinatorTicker().registerMachine(b);
         } else if (t == Material.WHITE_STAINED_GLASS || t == Material.BLUE_STAINED_GLASS || t == Material.YELLOW_STAINED_GLASS || t == Material.TERRACOTTA || t == Material.BLUE_TERRACOTTA || t == Material.CYAN_TERRACOTTA || t == Material.JUKEBOX || t == Material.REDSTONE_LAMP) {
-            // Network nodes
+            // Network nodes (legacy)
             MolecularFoundry.getInstance().getNetworkManager().registerNode(b.getLocation(), t);
+            // Register energy for controllers and storages
+            if (t == Material.REDSTONE_LAMP || t == Material.JUKEBOX) {
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 5000));
+            } else if (t == Material.TERRACOTTA) {
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 1000));
+            } else if (t == Material.BLUE_TERRACOTTA) {
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 5000));
+            } else if (t == Material.CYAN_TERRACOTTA) {
+                em.registerStorage(b.getLocation(), new EnergyStorage(b.getLocation(), 10000));
+            }
         }
     }
 
